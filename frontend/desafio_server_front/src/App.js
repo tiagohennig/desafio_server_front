@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box, DivList, Page, Title } from "./style"
+import axios from 'axios'
+import { useEffect, useState } from "react"
+import { Card } from "./cards/cardProduto"
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    useEffect(() => {
+        getProductsList()}, [] )
+
+	const [produtos, setProdutos] = useState([])
+
+
+	const getProductsList =  () => {
+		axios.get("http://localhost:3003/produtos/")
+		.then((response) => {
+			setProdutos(response.data)
+			console.log(produtos)
+		})
+	}
+
+	const produtoDetalhe = produtos.map((produto) => {
+		return(
+			<Card produto={produto}></Card>
+		)
+	})
+
+	return (
+
+    	<Page>
+			<Title>
+				<h1>PRODUTOS</h1>
+			</Title>
+
+			<DivList>
+				{produtoDetalhe}
+			</DivList>
+		</Page>
+
+	)
+
 }
 
-export default App;
+export default App
