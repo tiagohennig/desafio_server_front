@@ -11,7 +11,6 @@ function App() {
 
 	const [produtos, setProdutos] = useState([])
 
-
 	const getProductsList =  () => {
 		axios.get("http://localhost:3003/produtos/")
 		.then((response) => {
@@ -20,7 +19,7 @@ function App() {
 		})
 	}
 
-	const produtoDetalhe = produtos.map((produto) => {
+	const produtosDetalhe = produtos.map((produto) => {
 		return(
 			<Card produto={produto}></Card>
 		)
@@ -34,7 +33,7 @@ function App() {
 			</Title>
 
 			<DivList>
-				{produtoDetalhe}
+				{produtosDetalhe}
 			</DivList>
 		</Page>
 
