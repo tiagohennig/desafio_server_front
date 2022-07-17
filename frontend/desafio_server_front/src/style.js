@@ -26,8 +26,10 @@ h1 {
 
 export const DivList = styled.div`
 display: flex;
+flex-wrap: wrap;
 background-color: #94BDF2;
 height: 100%;
 justify-content: space-around;
+padding-bottom: 30px;
 `
 
