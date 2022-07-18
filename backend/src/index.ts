@@ -7,5 +7,5 @@ import { deleteProdutos } from "./endpoints/deleteProdutos";
 
 app.get("/produtos/", getProdutos)
 app.post("/produtos/", postProdutos)
-app.put("/produtos/", updateProdutos)
+app.put("/produtos/:codigo", updateProdutos)
 app.delete("/produtos/:codigo", deleteProdutos)

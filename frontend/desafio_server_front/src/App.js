@@ -1,15 +1,26 @@
-import { Box, DivList, Page, Title } from "./style"
+import React from 'react';
+import { DivList, Page, Title, BoxStyle, DivButtonModal, DivInputModal, DivInputModalPreco, DivInputModalDescricao, DivNovoProduto } from "./style"
 import axios from 'axios'
 import { useEffect, useState } from "react"
 import { Card } from "./cards/cardProduto"
+import { ToastContainer } from 'react-toastify';
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+
 
 
 function App() {
+	const [produtos, setProdutos] = useState([])
+	const [alterarListagem, setAlterarListagem] = useState(false)
+	const [open, setOpen] = React.useState(false)
+	const [preco, setPreco] = useState("")
+    const [descricao, setDescricao] = useState("")
+
 
     useEffect(() => {
-        getProductsList()}, [] )
-
-	const [produtos, setProdutos] = useState([])
+        getProductsList()}, [alterarListagem] )
 
 	const getProductsList =  () => {
 		axios.get("http://localhost:3003/produtos/")
@@ -21,20 +32,70 @@ function App() {
 
 	const produtosDetalhe = produtos.map((produto) => {
 		return(
-			<Card produto={produto}></Card>
+			<Card key={produto.codigo} produto={produto} 
+			setAlterarListagem={setAlterarListagem} 
+			alterarListagem={alterarListagem}></Card>
 		)
 	})
+
+	const novoProduto = async () => {
+		const body = {
+			descricao: descricao,
+			preco: preco
+		}
+		const response = await axios.post("http://localhost:3003/produtos/", body)
+		setOpen(!open)
+		toast.success("Produto cadastrado com sucesso!")
+		setPreco("")
+		setDescricao("")
+	}
+
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => setOpen(false)
+
+	const handlePrecoOnChange = (event) => {
+        setPreco(event.target.value)
+    }
+
+    const handleDescricaoOnChange = (event) => {
+        setDescricao(event.target.value)
+    }
 
 	return (
 
     	<Page>
+			<ToastContainer />
+					<Modal open={open} onClose={handleClose}>
+					<Box sx={BoxStyle}>
+						<DivInputModalDescricao>
+							<label> Descrição: </label>
+							<input type="text" onChange={handleDescricaoOnChange} value={descricao}></input>
+
+						</DivInputModalDescricao>
+						<DivInputModalPreco>
+							<label> Preço(R$): </label>
+							<input type="text" onChange={handlePrecoOnChange} value={preco}></input>
+							
+						</DivInputModalPreco>
+						<DivButtonModal>
+							<button onClick={() => {novoProduto();setAlterarListagem(!alterarListagem)}}>Cadastrar produto</button>
+						</DivButtonModal>
+					</Box>
+					</Modal>
 			<Title>
 				<h1>PRODUTOS</h1>
+
 			</Title>
+
+			<DivNovoProduto>
+				<button onClick={handleOpen}>CADASTRAR NOVO PRODUTO</button>
+			</DivNovoProduto>
 
 			<DivList>
 				{produtosDetalhe}
+
 			</DivList>
+
 		</Page>
 
 	)

@@ -1,5 +1,5 @@
 {
-  "name": "template",
+  "name": "desafio-server-front",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "dev": "ts-node-dev ./src/index.ts",
     "build": "tsc"
   },
-  "author": "Labenu",
+  "author": "tiago-hennig",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,6 +15,7 @@
     "express": "^4.18.1",
     "knex": "^0.95.15",
     "mysql": "^2.18.1",
+    "react-toastify": "^9.0.6",
     "ts-node": "^10.8.1",
     "uuid": "^8.3.2"
   },
