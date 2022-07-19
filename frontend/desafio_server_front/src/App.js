@@ -18,6 +18,19 @@ function App() {
 	const [preco, setPreco] = useState("")
     const [descricao, setDescricao] = useState("")
 
+	const validaCampos = () => {
+		if (!preco || !descricao) {
+			toast.error("Todos os campos devem estar completos.")
+			return false
+		}
+
+		if (isNaN(preco)) {
+			toast.error("No campo 'Preço' deve ser informado um número válido.")
+			return false
+		}
+
+		return true
+	}
 
     useEffect(() => {
         getProductsList()}, [alterarListagem] )
@@ -39,15 +52,24 @@ function App() {
 	})
 
 	const novoProduto = async () => {
+        if (!validaCampos()) {
+            return
+        }
+
 		const body = {
 			descricao: descricao,
 			preco: preco
 		}
-		const response = await axios.post("http://localhost:3003/produtos/", body)
-		setOpen(!open)
-		toast.success("Produto cadastrado com sucesso!")
-		setPreco("")
-		setDescricao("")
+		try {
+			const response = await axios.post("http://localhost:3003/produtos/", body)
+			setOpen(!open)
+            toast.success(response.data)
+			setPreco("")
+			setDescricao("")
+		} catch (error) {
+			toast.error(error.response.data)
+		}
+
 	}
 
 	const handleOpen = () => setOpen(true)
@@ -70,13 +92,13 @@ function App() {
 						<DivInputModalDescricao>
 							<label> Descrição: </label>
 							<input type="text" onChange={handleDescricaoOnChange} value={descricao}></input>
-
 						</DivInputModalDescricao>
+
 						<DivInputModalPreco>
 							<label> Preço(R$): </label>
 							<input type="text" onChange={handlePrecoOnChange} value={preco}></input>
-							
 						</DivInputModalPreco>
+
 						<DivButtonModal>
 							<button onClick={() => {novoProduto();setAlterarListagem(!alterarListagem)}}>Cadastrar produto</button>
 						</DivButtonModal>
@@ -84,7 +106,6 @@ function App() {
 					</Modal>
 			<Title>
 				<h1>PRODUTOS</h1>
-
 			</Title>
 
 			<DivNovoProduto>
@@ -93,13 +114,10 @@ function App() {
 
 			<DivList>
 				{produtosDetalhe}
-
 			</DivList>
 
 		</Page>
-
 	)
-
 }
 
 export default App

@@ -37,7 +37,7 @@ button {
     border: 1px solid white;
     color: #ffffff;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 18px;
     
 }
 
@@ -62,15 +62,18 @@ top: '50%',
 left: '50%',
 transform: 'translate(-50%, -50%)',
 width: 400,
-bgcolor: '#94BDF2',
+bgcolor: '#31598F',
 boxShadow: 24,
-p: 4,
+p: 5,
 }
 
 export const DivInputModalDescricao = styled.div`
 font-family: Roboto,  sans-serif;
 display: flex;
 flex-direction: column;
+color: #ffffff;
+font-size: 17px;
+
 input {
     height: 20px;
     width: 250px;
@@ -83,6 +86,8 @@ export const DivInputModalPreco = styled.div`
 font-family: Roboto,  sans-serif;
 display: flex;
 flex-direction: column;
+color: #ffffff;
+font-size: 17px;
 
 input {
     height: 20px;
@@ -101,8 +106,9 @@ button {
     border: 1px solid white;
     color: #ffffff;
     height: 30px;
-    font-size: 14px;
+    font-size: 20px;
     border-radius: 4px;
+    margin-top: 20px;
 }
 
 button:active {
